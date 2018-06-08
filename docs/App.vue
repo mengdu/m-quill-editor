@@ -16,8 +16,16 @@
         <a href="#example"><m-button type="warning" size="large" plain round>Example</m-button></a>
       </div>
     </header> -->
+    <div style="margin-top: 50px"></div>
+    <m-quill-editor 
+      :width="quill.width"
+      :has-border="quill.border"
+      v-model="quill.content"
+      :sync-output="quill.syncOutput"
+      :theme="quill.theme"
+      @upload="upload"
+      ></m-quill-editor>
     <p></p>
-    <m-quill-editor :width="800" no-border></m-quill-editor>
     <!-- <main class="doc-block">
       <readme></readme>
       <Doc/>
@@ -48,12 +56,24 @@ export default {
   data () {
     return {
       pkg,
-      test: 'xxx'
+      quill: {
+        width: 800,
+        border: false,
+        content: 'wellcome ~',
+        syncOutput: false,
+        theme: 'snow', //bubble snow
+      }
     }
   },
   computed: {
     repo () {
       return pkg.repository.url.replace(/git\+/, '')
+    }
+  },
+  methods: {
+    upload (file, insert) {
+      console.log(file)
+      insert('https://avatars0.githubusercontent.com/u/11366654?s=460&v=4', 'center')
     }
   }
 }

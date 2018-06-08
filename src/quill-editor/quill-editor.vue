@@ -3,20 +3,19 @@
     ref="quillEditorBox"
     :class="{
       'quill-full': isFull,
-      'quill-no-border': noBorder
+      'quill-no-border': !hasBorder
     }"
     :style="{
       width: isFull ? '' : width + 'px',
-      height: height + 'px',
+      height: isFull ? '' : height + 'px',
       zIndex: isFull ? zIndex : ''
     }"
     >
     <div ref="quillEditor"></div>
-    <input type="file" ref="image" style="display: none">
+    <input type="file" ref="img-input" style="display: none">
   </div>
 </template>
 <script type="text/javascript">
-/* eslint-disable */
 import Quill from 'quill'
 import toolbar from './toolbar'
 import 'quill/dist/quill.core.css'
@@ -28,12 +27,29 @@ import './quill-editor.css'
 
 Quill.register('modules/imageResize', ImageResize)
 
-var Delta = Quill.import('delta')
-// import hljs from 'highlight.js'
-window.Delta = Delta
-// window.hljs = hljs
 export default {
-  name: 'quill-editor',
+  name: 'MQuillEditor',
+  props: {
+    value: String,
+    width: Number,
+    height: Number,
+    placeholder: String,
+    toolbar: Object,
+    zIndex: String,
+    full: {
+      type: Boolean,
+      default: false
+    },
+    syncOutput: {
+      type: Boolean,
+      default: true
+    },
+    theme: {
+      type: String,
+      default: 'snow'
+    },
+    hasBorder: Boolean
+  },
   data () {
     return {
       content: '',
@@ -42,26 +58,18 @@ export default {
       Quill: Quill
     }
   },
-  props: {
-    value: String,
-    width: Number,
-    height: Number,
-    placeholder: String,
-    toolbar: Object,
-    delta: Object,
-    zIndex: String,
-    full: {
-      type: Boolean,
-      default: false
+  watch: {
+    full (val) {
+      this.isFull = val
     },
-    theme: {
-      type: String,
-      default: 'snow'
-    },
-    noBorder: Boolean
+    value (val, oldVal) {
+      if (val !== this.content) {
+        this.setContent(val)
+      }
+    }
   },
   methods: {
-    init () {
+    createQuill () {
       var quillEditor = this.$refs.quillEditor
       var quill = new Quill(quillEditor, {
         debug: 'warn',
@@ -81,29 +89,29 @@ export default {
         // bounds: '#editor-container',
         theme: this.theme // bubble / snow
       })
+
       if (this.theme === 'snow') {
         this.initFullBtn()
       }
+
       this.quill = quill
+
+      // init content
+      this.setContent(this.value)
+
+      // init img control
+      this.initImgInput()
+
       quill.on('text-change', (delta) => {
-        this.content = quill.container.firstChild.innerHTML
-        this.$emit('input', quill.container.firstChild.innerHTML)
-      })
-      var imgBtn = this.$refs.image
-      imgBtn.addEventListener('change', () => {
-        // console.log(imgBtn)
-        if (imgBtn.files.length > 0) {
-          this.$emit('upload', imgBtn.files[0], this.insertImage)
+        this.content = this.getContent()
+        // console.log('text-change', this.content)
+        if (this.syncOutput) {
+          this.$emit('input', this.content)
         }
+        this.$emit('change', this.quill)
       })
-      let btns = quill.getModule('toolbar')
-      btns.addHandler('image', () => {
-        imgBtn.click()
-      })
+      window.editor = quill
       this.$emit('init', quill)
-      // ql-toolbar
-      window.bar = this.$refs.quillEditorBox
-      window.quill = quill
     },
     initFullBtn () {
       var childs = this.$refs.quillEditorBox.children
@@ -132,29 +140,36 @@ export default {
         }
       }
     },
+    initImgInput () {
+      var imgInput = this.$refs['img-input']
+      imgInput.addEventListener('change', () => {
+        if (imgInput.files.length > 0) {
+          this.$emit('upload', imgInput.files[0], this.insertImage)
+        }
+      })
+      let btns = this.quill.getModule('toolbar')
+      btns.addHandler('image', () => {
+        imgInput.click()
+      })
+    },
     insertImage (src, align) {
       var range = this.quill.getSelection()
-      // this.quill.insertEmbed(range.index, 'text', '\n')
-      var t = this.quill.insertEmbed(range.index, 'image', src)
+      console.log(range)
+      this.quill.insertEmbed(range.index, 'text', '\n')
+      this.quill.insertEmbed(range.index + 1, 'image', src)
       this.quill.insertEmbed(range.index + 2, 'text', '\n')
-      // this.quill.formatText(range.index + 1, 4, 'align', align || 'center')
-      console.log(t)
-    }
-  },
-  watch: {
-    full (val) {
-      this.isFull = val
+      this.quill.formatText(range.index + 1, 2, 'align', align || 'center')
     },
-    value (val, oldVal) {
-      if (this.quill && val !== this.content) {
-        // console.log('change', val, val === this.content)
-        this.quill.container.firstChild.innerHTML = val
-      }
+    setContent (val) {
+      this.quill.container.firstChild.innerHTML = val
+      return this.quill
+    },
+    getContent (val) {
+      return this.quill.container.firstChild.innerHTML
     }
   },
   mounted () {
-    console.log('quill load')
-    this.init()
+    this.createQuill()
   }
 }
 </script>
