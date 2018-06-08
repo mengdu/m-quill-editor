@@ -48,13 +48,7 @@
   background: #fff;
   min-height: 0;
 }
-/* .quill-editor.quill-full .ql-container .ql-editor{
- padding: 12px 20%;
-}
-.quill-editor.quill-full .ql-container .ql-editor.ql-blank::before{
-  left: 20%;
-}
-*/
+
 @media (max-width: 992px) {
   .quill-editor.quill-full .ql-container .ql-editor {
     padding: 12px 15px;
