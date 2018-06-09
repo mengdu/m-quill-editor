@@ -2,6 +2,10 @@
 
 A quill editor component for vue.
 
+[Example](https://mengdu.github.io/m-quill-editor/example/)
+
+
+![img](20180610000744.png)
 
 npm
 
