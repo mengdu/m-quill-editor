@@ -6,10 +6,10 @@ import './assets/common.css'
 import DemoBlock from './components/demo-block'
 import MButton from 'vue-m-button'
 import 'vue-m-button/dist/css/default.css'
-import MInput from '@/index'
+import MQuillEditor from '@/../index'
 
 Vue.use(MButton)
-Vue.use(MInput)
+Vue.use(MQuillEditor)
 Vue.component('DemoBlock', DemoBlock)
 Vue.config.productionTip = false
 

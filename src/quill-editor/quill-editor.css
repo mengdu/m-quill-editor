@@ -13,12 +13,20 @@
   box-sizing: border-box;
   height: 42px;
 }
-.quill-editor .ql-snow .ql-fill,
-.quill-editor .ql-snow .ql-stroke.ql-fill{
+.quill-editor .ql-toolbar.ql-snow .ql-fill,
+.quill-editor .ql-toolbar.ql-snow .ql-stroke.ql-fill{
   fill: #35495E;
 }
-.quill-editor .ql-snow .ql-stroke{
+.quill-editor .ql-toolbar.ql-snow .ql-stroke{
   stroke: #35495E;
+}
+.quill-editor.disabled .ql-toolbar.ql-snow .ql-formats{
+  opacity: 0.5;
+  pointer-events:none;
+}
+.quill-editor.disabled .ql-toolbar.ql-snow .ql-formats.ql-resize{
+  opacity: 1;
+  pointer-events: auto;
 }
 .quill-editor.quill-no-border .ql-toolbar.ql-snow,
 .quill-editor.quill-no-border .ql-container.ql-snow{
@@ -29,7 +37,7 @@
 }
 
 /*全屏*/
-.quill-editor.quill-full{
+.quill-editor.quill-fullscreen{
   width: 100%;
   height: 100%;
   position: fixed;
@@ -39,10 +47,10 @@
   margin-bottom: 0;
   background: #f5f5fa;
 }
-.quill-editor.quill-full .ql-toolbar.ql-snow{
+.quill-editor.quill-fullscreen .ql-toolbar.ql-snow{
   text-align: center;
 }
-.quill-editor.quill-full .ql-container{
+.quill-editor.quill-fullscreen .ql-container{
   height: calc(100% - 42px);
   border: none;
   background: #fff;
@@ -50,28 +58,28 @@
 }
 
 @media (max-width: 992px) {
-  .quill-editor.quill-full .ql-container .ql-editor {
+  .quill-editor.quill-fullscreen .ql-container .ql-editor {
     padding: 12px 15px;
   }
-  .quill-editor.quill-full .ql-container .ql-editor.ql-blank::before{
+  .quill-editor.quill-fullscreen .ql-container .ql-editor.ql-blank::before{
     left: 15px;
   }
 }
 
 @media (min-width: 1200px) {
-  .quill-editor.quill-full .ql-container .ql-editor {
+  .quill-editor.quill-fullscreen .ql-container .ql-editor {
     padding: 12px 20%;
   }
-  .quill-editor.quill-full .ql-container .ql-editor.ql-blank::before{
+  .quill-editor.quill-fullscreen .ql-container .ql-editor.ql-blank::before{
     left: 20%;
   }
 }
 
 @media (min-width: 1600px) {
-  .quill-editor.quill-full .ql-container .ql-editor {
+  .quill-editor.quill-fullscreen .ql-container .ql-editor {
     padding: 12px 26%;
   }
-  .quill-editor.quill-full .ql-container .ql-editor.ql-blank::before{
+  .quill-editor.quill-fullscreen .ql-container .ql-editor.ql-blank::before{
     left: 26%;
   }
 }

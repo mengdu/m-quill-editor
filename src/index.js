@@ -1,11 +1,10 @@
-import MInput from './input'
-import './input.less'
+import MQuillEditor from './quill-editor'
 
-MInput.install = function (Vue) {
-  Vue.component(MInput.name, MInput)
+MQuillEditor.install = function (Vue) {
+  Vue.component(MQuillEditor.name, MQuillEditor)
 }
 
 export {
-  MInput as default,
-  MInput
+  MQuillEditor as default,
+  MQuillEditor
 }

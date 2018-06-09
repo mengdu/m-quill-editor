@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- <fork-link :repo="repo" /> -->
-    <!-- <header>
+    <fork-link :repo="repo" />
+    <header>
       <img src="./assets/logo.png">
       <h1>{{pkg.name}} <span>{{pkg.version}}</span></h1>
       <p>{{pkg.description}}</p>
@@ -15,7 +15,7 @@
         &nbsp;
         <a href="#example"><m-button type="warning" size="large" plain round>Example</m-button></a>
       </div>
-    </header> -->
+    </header>
     <div style="margin-top: 50px"></div>
     <m-quill-editor 
       :width="quill.width"
@@ -23,13 +23,14 @@
       v-model="quill.content"
       :sync-output="quill.syncOutput"
       :theme="quill.theme"
+      :disabled="quill.disabled"
+      :fullscreen="quill.full"
       @upload="upload"
       ></m-quill-editor>
     <p></p>
-    <!-- <main class="doc-block">
+    <main class="doc-block">
       <readme></readme>
-      <Doc/>
-    </main> -->
+    </main>
     <layout-footer></layout-footer>
   </div>
 </template>
@@ -37,21 +38,15 @@
 <script>
 import LayoutFooter from './components/footer'
 import ForkLink from './components/fork-link'
-import Doc from './doc.md'
 import Readme from '~/README.md'
 import pkg from '~/package.json'
-// import MScrollbar from '@/mini-scrollbar'
-import MQuillEditor from '@/quill-editor'
 
 export default {
   name: 'App',
   components: {
-    Doc,
     LayoutFooter,
     ForkLink,
-    Readme,
-    // MScrollbar,
-    MQuillEditor
+    Readme
   },
   data () {
     return {
@@ -62,6 +57,12 @@ export default {
         content: 'wellcome ~',
         syncOutput: false,
         theme: 'snow', //bubble snow
+        disabled: false,
+        full: false,
+        toolbar: [
+          [{ 'header': 1 }, { 'header': 2 }],
+          ['bold', 'italic', 'underline', 'strike', 'link']
+        ]
       }
     }
   },

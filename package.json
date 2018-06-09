@@ -1,18 +1,23 @@
 {
-  "name": "vue-component-devtool",
+  "name": "vue-m-quill-editor",
   "version": "1.0.0",
-  "description": "A Vue.js component devtool",
+  "description": "A quill editor component for vue.",
   "author": "lanyueos@qq.com",
   "license": "MIT",
   "main": "./index.js",
+  "keywords": [
+    "quill",
+    "vue-quill-editor",
+    "m-quill-editor"
+  ],
   "repository": {
     "type": "https",
-    "url": "git+https://github.com/mengdu/vue-component-devtool"
+    "url": "git+https://github.com/mengdu/m-quill-editor"
   },
   "bugs": {
-    "url": "https://github.com/mengdu/vue-component-devtool/issues"
+    "url": "https://github.com/mengdu/m-quill-editor/issues"
   },
-  "homepage": "https://mengdu.github.io/vue-component-devtool/example/",
+  "homepage": "https://mengdu.github.io/m-quill-editor/example/",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",

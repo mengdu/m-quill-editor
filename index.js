@@ -1,7 +1,7 @@
-import {MInput} from './dist/index'
+import MQuillEditor from './dist/index.js'
 import './dist/css/default.css'
 
 export {
-  MInput as default,
-  MInput
+  MQuillEditor as default,
+  MQuillEditor
 }

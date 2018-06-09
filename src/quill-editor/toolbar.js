@@ -1,9 +1,9 @@
 export default [
   // [{ 'font': fonts }],
-  // [{ 'header': 1 }, { 'header': 2 }],
-  [{'header': [1, 2, 3, 4, 5, 6, false]}],
   // [{'size': ['small', false, 'large', 'huge']}],
-  ['bold', 'italic', 'underline', 'strike', 'link'],
+  ['bold', 'italic', 'underline', 'strike', 'link', {'header': [1, 2, 3, 4, 5, 6, false]}],
+  // [{ 'header': 1 }, { 'header': 2 }],
+  // [{'header': [1, 2, 3, 4, 5, 6, false]}],
   ['blockquote', 'code-block'],
   [{'list': 'ordered'}, {'list': 'bullet'}],
   // [{ 'script': 'sub'}, { 'script': 'super' }],

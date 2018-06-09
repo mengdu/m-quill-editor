@@ -1,86 +1,138 @@
-# vue-component-devtool
+## MQuillEditor
 
-基于 webpack 的 Vue 组件开发工具。可以编写例子，文档。
-
-> 基于vue init webpack 模板修改，参照了 [element-ui](https://github.com/ElemeFE/element) 的实现。
+A quill editor component for vue.
 
 
-[Example](https://mengdu.github.io/m-button/example/)
-
-**use**
+npm
 
 ```ls
-git clone https://github.com/mengdu/vue-component-devtool my-component
+npm install vue-m-quill-editor
 ```
 
-**安装依赖**
+use
 
-```ls
-yarn
-# or
-npm install
-```
+```js
+import MQuillEditor from 'vue-m-quill-editor'
 
-**功能**
-
-+ 打包vue组件，导出 `umd` 模式
-+ 支持 `markdown` 解析
-+ `markdwon` 可以编写编写vue例子
-
-
-**目录**：
-
-```text
-├─build 开发工具
-├─config 开发配置
-├─dist 打包后内容
-│  ├─index.js
-│  └─css
-├─src 组件源码，以 `index.js` 导出组件
-├─docs 文档及在线列子源码
-├─example 生成的文档及在线例子
-├─index.js 用于导出包和css加载
+Vue.use(MQuillEditor)
 ```
 
 
-可以在 `docs` 的文件里 `import MyComponent from '@/index'` 载入你的组件。
 
-
-
-
-
-
-**开发模式**（支持热更新）
-
-```ls
-npm run dev
+```js
+<template>
+  <m-quill-editor 
+    :width="quill.width"
+    :has-border="quill.border"
+    v-model="quill.content"
+    :sync-output="quill.syncOutput"
+    :theme="quill.theme"
+    :disabled="quill.disabled"
+    :fullscreen="quill.full"
+    @upload="upload"
+    ></m-quill-editor>
+</template>
+<script>
+import MQuillEditor from 'm-quill-editor'
+export default {
+  components: {
+    MQuillEditor
+  },
+  data () {
+    return {
+      pkg,
+      quill: {
+        width: 800,
+        border: false,
+        content: 'wellcome ~',
+        syncOutput: false,
+        theme: 'snow', //bubble snow
+        disabled: false,
+        full: false,
+        toolbar: [
+          [{ 'header': 1 }, { 'header': 2 }],
+          ['bold', 'italic', 'underline', 'strike', 'link']
+        ]
+      }
+    }
+  },
+  methods: {
+    upload (file, insert) {
+      console.log(file)
+      insert('https://avatars0.githubusercontent.com/u/11366654?s=460&v=4', 'center')
+    }
+  }
+}
+</script>
 ```
 
-打开 `http://localhost:8080` 查看效果。
 
 
+## MQuillEditor Attributes
 
-**打包组件**
+| 参数      | 说明    | 类型      | 可选值       | 默认值   |
+|---------- |-------- |---------- |-------------  |-------- |
+| value     | 内容    | string    | — | —  |
+| width     | 宽度    | number    | — | —  |
+| height     | 高度    | number    | — | —  |
+| placeholder     | 占位符    | string    | — | 在这里输入内容...  |
+| toolbar     | 工具栏配置    | object    | — |   |
+| zIndex     | 编辑器z-index值    | string    | — |  1000 |
+| fullscreen     | 是否全屏    | boolean    | true/false |  false |
+| syncOutput     | 是否同步value（同步到v-model）    | boolean    | true/false |  false |
+| theme     | 主题    | string    | bubble/snow |  snow |
+| has-border     | 是否显示边框    | boolean    | true/false |  false |
+| disabled     |   禁用  | boolean    | true/false |  false |
+| img-accept     |   图片输入框 `accept` 属性  | string    | — | 空 |
 
-```ls
-npm run build
+
+**toolbar:**
+
+```js
+[
+  // [{ 'font': fonts }],
+  // [{'size': ['small', false, 'large', 'huge']}],
+  ['bold', 'italic', 'underline', 'strike', 'link', {'header': [1, 2, 3, 4, 5, 6, false]}],
+  // [{ 'header': 1 }, { 'header': 2 }],
+  // [{'header': [1, 2, 3, 4, 5, 6, false]}],
+  ['blockquote', 'code-block'],
+  [{'list': 'ordered'}, {'list': 'bullet'}],
+  // [{ 'script': 'sub'}, { 'script': 'super' }],
+  // [{ 'indent': '-1'}, { 'indent': '+1' }],
+  // [{ 'direction': 'rtl' }],
+  [{'color': []}, {'background': []}],
+  // [{align: []}],
+  // [{ 'align': [false, 'right', 'center', 'justify'] }],
+  [{align: ''}, {align: 'right'}, {align: 'center'}, {align: 'justify'}],
+  ['image', 'video'],
+  ['clean']
+]
 ```
 
-打包后组件被打包成js和css在 `dist` 文件夹中。
+## MQuillEditor Events
 
-**生成文档**
+| 事件      | 说明    |参数   |
+|---------- |-------- |----------|
+| init     | 初始化   | quill, MQuillEditor |
+| blur     | 失去焦点   | —  |
+| focus     | 获取焦点   | —  |
+| change | 内容改变   | —  |
+| upload | 选择图片   | File, quill.insertImage  |
 
-```ls
-npm run docs
-```
 
-生成文档在 `example` 文件夹，打开 `index.html` 可可以浏览。上传Github后可以在Github 开启项目Page访问。
+## MQuillEditor Methods
+
+| 名称      | 说明    |参数   |
+|---------- |-------- |----------|
+| setContent     | 设置html   | html |
+| getContent     | 获取html   |  |
+| setDisabled     | 禁用   |  |
 
 
-## Other
+## other
 
-[element-ui](https://github.com/ElemeFE/element)
+[Quill](https://quilljs.com/)
 
-[vue-markdown-loader](https://github.com/QingWei-Li/vue-markdown-loader)
+[Quill Github](https://github.com/quilljs/quill)
 
------
+[Quill API](https://quilljs.com/docs/quickstart/)

@@ -2,17 +2,18 @@
   <div class="quill-editor"
     ref="quillEditorBox"
     :class="{
-      'quill-full': isFull,
-      'quill-no-border': !hasBorder
+      'quill-fullscreen': isFullscreen,
+      'quill-no-border': !hasBorder,
+      'disabled': disabled
     }"
     :style="{
-      width: isFull ? '' : width + 'px',
-      height: isFull ? '' : height + 'px',
-      zIndex: isFull ? zIndex : ''
+      width: isFullscreen ? '' : width + 'px',
+      height: isFullscreen ? '' : height + 'px',
+      zIndex: zIndex
     }"
     >
     <div ref="quillEditor"></div>
-    <input type="file" ref="img-input" style="display: none">
+    <input type="file" :accept="imgAccept" ref="img-input" style="display: none">
   </div>
 </template>
 <script type="text/javascript">
@@ -35,8 +36,8 @@ export default {
     height: Number,
     placeholder: String,
     toolbar: Object,
-    zIndex: String,
-    full: {
+    zIndex: [String, Number],
+    fullscreen: {
       type: Boolean,
       default: false
     },
@@ -48,24 +49,29 @@ export default {
       type: String,
       default: 'snow'
     },
-    hasBorder: Boolean
+    hasBorder: Boolean,
+    disabled: Boolean,
+    imgAccept: String
   },
   data () {
     return {
       content: '',
-      isFull: this.full,
+      isFullscreen: this.fullscreen,
       quill: null,
       Quill: Quill
     }
   },
   watch: {
-    full (val) {
-      this.isFull = val
+    fullscreen (val) {
+      this.isFullscreen = val
     },
     value (val, oldVal) {
       if (val !== this.content) {
         this.setContent(val)
       }
+    },
+    disabled (val, oldVal) {
+      this.setDisabled(val)
     }
   },
   methods: {
@@ -83,7 +89,7 @@ export default {
           imageResize: {
             displaySize: true
           },
-          toolbar: toolbar || toolbar
+          toolbar: this.toolbar || toolbar
         },
         placeholder: this.placeholder || '这里输入内容...',
         // bounds: '#editor-container',
@@ -110,18 +116,26 @@ export default {
         }
         this.$emit('change', this.quill)
       })
-      window.editor = quill
-      this.$emit('init', quill)
+
+      quill.on('selection-change', range => {
+        if (!range) {
+          this.$emit('blur', this.quill)
+        } else {
+          this.$emit('focus', this.quill)
+        }
+      })
+
+      this.$emit('init', quill, this)
     },
     initFullBtn () {
       var childs = this.$refs.quillEditorBox.children
       var fullBtn = document.createElement('SPAN')
-      fullBtn.className = 'ql-formats'
+      fullBtn.className = 'ql-formats ql-resize'
       fullBtn.style = 'float: right;margin-right: 0;'
       var that = this
       function setSizeBtn () {
         var icon = ''
-        if (that.isFull) {
+        if (that.isFullscreen) {
           icon = icons.minsize
         } else {
           icon = icons.maxsize
@@ -130,7 +144,7 @@ export default {
       }
       setSizeBtn()
       fullBtn.addEventListener('click', () => {
-        this.isFull = !this.isFull
+        this.isFullscreen = !this.isFullscreen
         setSizeBtn()
       }, false)
       for (let i in childs) {
@@ -161,8 +175,12 @@ export default {
       this.quill.formatText(range.index + 1, 2, 'align', align || 'center')
     },
     setContent (val) {
-      this.quill.container.firstChild.innerHTML = val
+      // this.quill.container.firstChild.innerHTML = val
+      this.quill.clipboard.dangerouslyPasteHTML(val)
       return this.quill
+    },
+    setDisabled (val) {
+      this.quill.enable(!val)
     },
     getContent (val) {
       return this.quill.container.firstChild.innerHTML
