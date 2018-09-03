@@ -1,5 +1,6 @@
 /* eslint-disable */
 /**
+ * 这里的代码来自 https://github.com/surmon-china/vue-quill-editor
  * Custom module for quilljs to allow user to resize <img> elements
  * (Works on Chrome, Edge, Safari and replaces Firefox's native resize behavior)
  * @see https://quilljs.com/blog/building-a-custom-module/
