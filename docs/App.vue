@@ -28,6 +28,9 @@
       :fullscreen="quill.full"
       @upload="upload"
       ></m-quill-editor>
+    <div style="padding: 10px; text-align: center">
+      <m-button @click="handleGetContent" type="info">获取内容</m-button>
+    </div>
     <p></p>
     <main class="doc-block">
       <readme></readme>
@@ -91,6 +94,12 @@ export default {
     upload (file, insert) {
       console.log(file)
       insert('https://avatars0.githubusercontent.com/u/11366654?s=460&v=4', 'center')
+    },
+    handleGetContent () {
+      console.clear()
+      console.log(this.$refs.quill.getContent())
+
+      alert('请在控制台查看内容')
     }
   },
   mounted () {
