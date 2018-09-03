@@ -17,7 +17,8 @@
       </div>
     </header>
     <div style="margin-top: 50px"></div>
-    <m-quill-editor 
+    <m-quill-editor ref="quill"
+      :toolbar="quill.toolbar"
       :width="quill.width"
       :has-border="quill.border"
       v-model="quill.content"
@@ -27,6 +28,9 @@
       :fullscreen="quill.full"
       @upload="upload"
       ></m-quill-editor>
+    <div style="padding: 10px; text-align: center">
+      <m-button @click="handleGetContent" type="info">获取内容</m-button>
+    </div>
     <p></p>
     <main class="doc-block">
       <readme></readme>
@@ -60,8 +64,23 @@ export default {
         disabled: false,
         full: false,
         toolbar: [
-          [{ 'header': 1 }, { 'header': 2 }],
-          ['bold', 'italic', 'underline', 'strike', 'link']
+          // [{font: ['monospace', 'serif']}],
+          // [{'size': ['small', false, 'large', 'huge']}],
+          ['bold', 'italic', 'underline', 'strike', 'link', {'header': [1, 2, 3, 4, 5, 6, false]}],
+          // [{ 'header': 1 }, { 'header': 2 }],
+          // [{'header': [1, 2, 3, 4, 5, 6, false]}],
+          // ['blockquote', 'code-block'],
+          ['blockquote'],
+          [{'list': 'ordered'}, {'list': 'bullet'}],
+          // [{ 'script': 'sub'}, { 'script': 'super' }],
+          [{ 'indent': '-1'}, { 'indent': '+1' }],
+          // [{ 'direction': 'rtl' }],
+          [{'color': []}, {'background': []}],
+          // [{align: []}],
+          // [{ 'align': [false, 'right', 'center', 'justify'] }],
+          [{align: ''}, {align: 'right'}, {align: 'center'}, {align: 'justify'}],
+          ['image', 'video'],
+          ['clean']
         ]
       }
     }
@@ -75,7 +94,16 @@ export default {
     upload (file, insert) {
       console.log(file)
       insert('https://avatars0.githubusercontent.com/u/11366654?s=460&v=4', 'center')
+    },
+    handleGetContent () {
+      console.clear()
+      console.log(this.$refs.quill.getContent())
+
+      alert('请在控制台查看内容')
     }
+  },
+  mounted () {
+    window.quill = this.$refs['quill']
   }
 }
 </script>

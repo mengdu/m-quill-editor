@@ -35,7 +35,7 @@ export default {
     width: Number,
     height: Number,
     placeholder: String,
-    toolbar: Object,
+    toolbar: [Object, Array],
     zIndex: [String, Number],
     fullscreen: {
       type: Boolean,
@@ -51,7 +51,11 @@ export default {
     },
     hasBorder: Boolean,
     disabled: Boolean,
-    imgAccept: String
+    imgAccept: String,
+    showFullButton: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {
@@ -96,7 +100,7 @@ export default {
         theme: this.theme // bubble / snow
       })
 
-      if (this.theme === 'snow') {
+      if (this.theme === 'snow' && this.showFullButton) {
         this.initFullBtn()
       }
 
