@@ -35,7 +35,7 @@ export default {
     width: Number,
     height: Number,
     placeholder: String,
-    toolbar: Object,
+    toolbar: [Object, Array],
     zIndex: [String, Number],
     fullscreen: {
       type: Boolean,
