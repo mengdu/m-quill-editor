@@ -17,7 +17,7 @@
       </div>
     </header>
     <div style="margin-top: 50px"></div>
-    <m-quill-editor 
+    <m-quill-editor ref="quill"
       :toolbar="quill.toolbar"
       :width="quill.width"
       :has-border="quill.border"
@@ -61,6 +61,7 @@ export default {
         disabled: false,
         full: false,
         toolbar: [
+          [{font: ['微软']}],
           // [{'size': ['small', false, 'large', 'huge']}],
           ['bold', 'italic', 'underline', 'strike', 'link', {'header': [1, 2, 3, 4, 5, 6, false]}],
           // [{ 'header': 1 }, { 'header': 2 }],
@@ -90,6 +91,9 @@ export default {
       console.log(file)
       insert('https://avatars0.githubusercontent.com/u/11366654?s=460&v=4', 'center')
     }
+  },
+  mounted () {
+    window.quill = this.$refs['quill']
   }
 }
 </script>

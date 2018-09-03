@@ -33,6 +33,7 @@ Vue.use(MQuillEditor)
     :theme="quill.theme"
     :disabled="quill.disabled"
     :fullscreen="quill.full"
+    :toolbar="quill.toolbar"
     @upload="upload"
     ></m-quill-editor>
 </template>
@@ -83,6 +84,7 @@ export default {
 | toolbar     | 工具栏配置    | object    | — |   |
 | zIndex     | 编辑器z-index值    | string    | — |  1000 |
 | fullscreen     | 是否全屏    | boolean    | true/false |  false |
+| show-full-button | 是否显示全屏按钮    | boolean    | true/false |  true |
 | syncOutput     | 是否同步value（同步到v-model）    | boolean    | true/false |  false |
 | theme     | 主题    | string    | bubble/snow |  snow |
 | has-border     | 是否显示边框    | boolean    | true/false |  false |
@@ -90,7 +92,7 @@ export default {
 | img-accept     |   图片输入框 `accept` 属性  | string    | — | 空 |
 
 
-**toolbar:**
+**toolbar 的值可以是一下数组:**
 
 ```js
 [
