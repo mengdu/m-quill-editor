@@ -96,7 +96,6 @@ export default {
 
 ```js
 [
-  // [{ 'font': fonts }],
   // [{'size': ['small', false, 'large', 'huge']}],
   ['bold', 'italic', 'underline', 'strike', 'link', {'header': [1, 2, 3, 4, 5, 6, false]}],
   // [{ 'header': 1 }, { 'header': 2 }],
